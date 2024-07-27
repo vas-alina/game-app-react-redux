@@ -1,39 +1,33 @@
-export const useGameLogic = (setGameState) => {
-  const WIN_PATTERNS = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
+import { store } from "../store";
+import { setGameEnded, setIsDraw } from "../actions";
 
-  const checkWin = (updatedField) => {
-    for (let i = 0; i < WIN_PATTERNS.length; i++) {
-      const [a, b, c] = WIN_PATTERNS[i];
-      if (
-        updatedField[a] &&
-        updatedField[a] === updatedField[b] &&
-        updatedField[a] === updatedField[c]
-      ) {
-        setGameState((prevState) => ({
-          ...prevState,
-          isGameEnded: true,
-        }));
+const WIN_PATTERNS = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
+
+export const useGameLogic = () => {
+  const checkWin = (field) => {
+    for (const [a, b, c] of WIN_PATTERNS) {
+      if (field[a] && field[a] === field[b] && field[a] === field[c]) {
+        store.dispatch(setGameEnded(true));
+        store.dispatch(setIsDraw(false));
         return true;
       }
     }
     return false;
   };
 
-  const checkDraw = (updatedField) => {
-    if (!updatedField.includes("")) {
-      setGameState((prevState) => ({
-        ...prevState,
-        isDraw: true,
-      }));
+  const checkDraw = (field) => {
+    if (!field.includes("")) {
+      store.dispatch(setGameEnded(true));
+      store.dispatch(setIsDraw(true));
       return true;
     }
     return false;

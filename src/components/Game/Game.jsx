@@ -1,42 +1,17 @@
-
 import '../../App.css'
-import { useGameLogic } from '../../hooks/useGameLogic';
-import { useGameState } from '../../hooks/useGameState';
+// import { store } from '../../store';
 import { GameLayout } from '../../layout/GameLayout';
-// import background from './assets/background.png'
+import { useGameState } from '../../hooks/useGameState'
 
 export const Game = () => {
 
-const { gameState,
-    setGameState,
-    handleResetGame} = useGameState()
+const { gameState, handleFieldClick, handleResetGame } = useGameState();
 
-const { checkWin,
-    checkDraw } = useGameLogic(setGameState)
+console.log('Game component:', gameState);
 
-const handleFieldClick = (index) => {
-  if(gameState.isGameEnded || gameState.field[index] !== '' ){
-     return
-  }
-   
-
-const updatedField = gameState.field.map((value, i) => 
-    i === index ? gameState.currentPlayer : value
-  );
-    setGameState(prevState => ({
-      ...prevState,
-      field: updatedField
-    }));
-
-
-if (!checkWin(updatedField) && !checkDraw(updatedField)) {
-  setGameState(prevState => ({
-    ...prevState,
-    currentPlayer: prevState.currentPlayer === 'X' ? '0' : 'X'
-    }));  
+if (!gameState) {
+  return <div>Loading...</div>;
 }
-};
-
   return (
 
   <>
