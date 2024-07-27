@@ -14,14 +14,14 @@ export const setCurrentPlayer = (player) => ({
   payload: player,
 });
 
-export const setGameEnded = (status) => ({
+export const setGameEnded = (isGameEnded) => ({
   type: SET_GAME_ENDED,
-  payload: status,
+  payload: isGameEnded,
 });
 
-export const setIsDraw = (status) => ({
+export const setIsDraw = (isDraw) => ({
   type: SET_IS_DRAW,
-  payload: status,
+  payload: isDraw,
 });
 
 export const resetGame = () => ({

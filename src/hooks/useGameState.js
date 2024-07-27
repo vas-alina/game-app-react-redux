@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { store } from "../store";
 import {
   setField,
@@ -7,21 +6,13 @@ import {
   setIsDraw,
 } from "../actions";
 import { useGameLogic } from "./useGameLogic";
+import { useDispatch, useSelector } from "react-redux";
+import { selectState } from "../selectors/select-state";
 
 export const useGameState = () => {
-  const [gameState, setGameState] = useState(store.getState());
+  const dispatch = useDispatch();
+  const gameState = useSelector(selectState);
   const { checkWin, checkDraw } = useGameLogic();
-
-  useEffect(() => {
-    console.log("gameState начал работу:", store.getState());
-
-    const unsubscribe = store.subscribe(() => {
-      console.log("Начальное состояние", store.getState());
-      setGameState(store.getState());
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   const handleFieldClick = (index) => {
     if (gameState.isGameEnded || gameState.field[index] !== "") {
@@ -32,7 +23,7 @@ export const useGameState = () => {
       i === index ? gameState.currentPlayer : value
     );
 
-    store.dispatch(setField(updatedField));
+    dispatch(setField(updatedField));
 
     if (!checkWin(updatedField) && !checkDraw(updatedField)) {
       store.dispatch(
@@ -42,10 +33,10 @@ export const useGameState = () => {
   };
 
   const handleResetGame = () => {
-    store.dispatch(setField(Array(9).fill("")));
-    store.dispatch(setCurrentPlayer("X"));
-    store.dispatch(setGameEnded(false));
-    store.dispatch(setIsDraw(false));
+    dispatch(setField(Array(9).fill("")));
+    dispatch(setCurrentPlayer("X"));
+    dispatch(setGameEnded(false));
+    dispatch(setIsDraw(false));
   };
 
   console.log("Текущее состояние", gameState);

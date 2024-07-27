@@ -1,7 +1,10 @@
+import { useSelector } from 'react-redux';
 import { FieldLayout } from '../../layout/FieldLayout';
 import PropTypes from 'prop-types';
+import { selectField } from '../../selectors/select-field';
 
-export const Field = ({ field, onButtonClick }) => {
+export const Field = ({onButtonClick }) => {
+    const  field = useSelector(selectField)
     return(
         
         <>

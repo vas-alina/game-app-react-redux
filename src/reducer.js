@@ -6,7 +6,7 @@ import {
   RESET_GAME,
 } from "./actions";
 
-const initialState = {
+export const initialState = {
   currentPlayer: "X",
   isGameEnded: false,
   isDraw: false,

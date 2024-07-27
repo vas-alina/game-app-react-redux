@@ -1,5 +1,6 @@
 import { store } from "../store";
 import { setGameEnded, setIsDraw } from "../actions";
+import { useDispatch } from "react-redux";
 
 const WIN_PATTERNS = [
   [0, 1, 2],
@@ -13,11 +14,13 @@ const WIN_PATTERNS = [
 ];
 
 export const useGameLogic = () => {
+  const dispatch = useDispatch();
+
   const checkWin = (field) => {
     for (const [a, b, c] of WIN_PATTERNS) {
       if (field[a] && field[a] === field[b] && field[a] === field[c]) {
-        store.dispatch(setGameEnded(true));
-        store.dispatch(setIsDraw(false));
+        dispatch(setGameEnded(true));
+        dispatch(setIsDraw(false));
         return true;
       }
     }
